@@ -1,0 +1,146 @@
+﻿<UserControl x:Class="全面瑕疵检测.Views.DetectionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:全面瑕疵检测.Views"
+             xmlns:converter="clr-namespace:全面瑕疵检测.Converters"
+             mc:Ignorable="d" 
+             DataContext="{Binding Source={StaticResource vm_locator},Path=DetectionViewModel}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converter:Boolean2String x:Key="boolean2String"/>
+        <Style x:Key="btnstyle_changeimgviewsize" TargetType="Button">
+            <Setter Property="ItemsControl.Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Grid>
+                            <Border x:Name="back" Background="Gray" Opacity="0.5"/>
+                            <TextBlock x:Name="txt" Foreground="White" Text="{TemplateBinding Content}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="back" Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="back" Property="Background" Value="red"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Button Style="{StaticResource btn_without_icon}" Content="手动检测" IsEnabled="{Binding CanManual,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}" Command="{Binding ManualDetectionCommand}"/>
+            <Label Content="检测模式：" FontSize="13" Foreground="LightSeaGreen"/>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <RadioButton Content="手动模式" VerticalAlignment="Center"/>
+                <RadioButton Content="自动模式" VerticalAlignment="Center" IsChecked="{Binding IsAutomaticMode,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+            </StackPanel>
+            
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="选择型号" Style="{StaticResource btn_without_icon}"
+                    Command="{Binding SelectWoodInfoCommand}"/>
+            <ComboBox Width="150"  Margin="0 0 10 0"
+                      DisplayMemberPath="ORCode"
+                      SelectedValue="{Binding SelectedWoodInfo,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                      ItemsSource="{Binding WoodInfos,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+        </StackPanel>
+
+        <GroupBox Header="板面A" x:Name="A" Grid.Row="1">
+            <Grid>
+                <Image Source="{Binding BitmapImageA}" Stretch="Uniform"/>
+                <Button Content="放大" Visibility="Collapsed"
+                        HorizontalAlignment="Left"
+                        CommandParameter="A"
+                        Command="{Binding ChangeCommand}"
+                        Style="{StaticResource btnstyle_changeimgviewsize}" Height="25" Width="auto" 
+                        VerticalAlignment="Top"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="板面B" x:Name="B" Grid.Row="1" Grid.Column="1">
+            <Grid>
+                <Image Source="{Binding BitmapImageB}" Stretch="Uniform"/>
+
+                <Button Content="放大" HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Style="{StaticResource btnstyle_changeimgviewsize}"
+                        Command="{Binding ChangeCommand}"
+                        Visibility="Collapsed"
+                        CommandParameter="B"
+                        />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="板面C" x:Name="C" Grid.Row="2">
+            <Grid>
+                <Image Source="{Binding BitmapImageC}"/>
+                <Button Content="放大" HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Command="{Binding ChangeCommand}"
+                        Visibility="Collapsed"
+                        CommandParameter="C"
+            Style="{StaticResource btnstyle_changeimgviewsize}"
+            />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="板面D" x:Name="D" Grid.Row="2" Grid.Column="1">
+            <Grid>
+                <Image Source="{Binding BitmapImageD}"/>
+                <Button Content="放大" HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Command="{Binding ChangeCommand}"
+                        Visibility="Collapsed"
+                        CommandParameter="D"
+            Style="{StaticResource btnstyle_changeimgviewsize}"
+            />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="板面E" x:Name="E" Grid.Row="3">
+            <Grid>
+                <Image Source="{Binding BitmapImageE}"/>
+                <Button Content="放大" HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Command="{Binding ChangeCommand}" Visibility="Collapsed"
+                        CommandParameter="E"
+            Style="{StaticResource btnstyle_changeimgviewsize}"
+            />
+            </Grid>
+        </GroupBox>
+        <GroupBox Header="板面F" x:Name="F" Grid.Row="3" Grid.Column="1">
+            <Grid>
+                <Image Source="{Binding BitmapImageF}"/>
+                <Button Content="放大" HorizontalAlignment="Left" VerticalAlignment="Top"
+                        Command="{Binding ChangeCommand}" Visibility="Collapsed"
+                        CommandParameter="F"
+            Style="{StaticResource btnstyle_changeimgviewsize}"
+            />
+            </Grid>
+        </GroupBox>
+        <DockPanel Grid.Row="4" Grid.ColumnSpan="2">
+            <ListBox DockPanel.Dock="Left" IsEnabled="False" ItemsSource="{Binding DetectClasses,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBox Text="{Binding Name}" Tag="{Binding IsOK}" Style="{StaticResource textbox_style_status}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <TextBox Style="{StaticResource txtbox_result_style}" Text="{Binding IsOK,Mode=OneWay,UpdateSourceTrigger=PropertyChanged,Converter={StaticResource boolean2String}}"/>
+        </DockPanel>
+    </Grid>
+</UserControl>

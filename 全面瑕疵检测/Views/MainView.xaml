@@ -1,0 +1,95 @@
+﻿<Window x:Class="全面瑕疵检测.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:全面瑕疵检测.Views"
+        DataContext="{Binding Source={StaticResource vm_locator},Path=MainViewModel}"
+        mc:Ignorable="d"
+        Loaded="Window_Loaded"
+        Closing="Window_Closing"
+        Background="LightGray"
+        FontSize="18"
+        WindowStyle="None"
+        Height="450" Width="800">
+    <DockPanel>
+        <!--导航-->
+        <StackPanel DockPanel.Dock="Left" Background="Gray">
+            <TextBlock Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Text="&#xec5f;" Foreground="#8CEDCB" Margin="10"
+                       FontFamily="{StaticResource fontFamilyWin}" FontSize="40"/>
+            <RadioButton Content="&#xe8bd;"
+                         IsChecked="True"
+                        Visibility="Visible"
+                        ToolTip="瑕疵检测界面"
+                         CommandParameter="{x:Type local:DetectionView}"
+                         Command="{Binding ChangeViewCommand}"
+                        Style="{StaticResource radiobtn_style_with_iconfont}"/>
+            <RadioButton Style="{StaticResource radiobtn_style_with_iconfont}"
+                         Visibility="Collapsed"
+                        Content="&#xe8c6;"
+                        ToolTip="检测界面"
+                        />
+            
+            <RadioButton Content="&#xe8c8;" 
+                        ToolTip="相机配置界面"
+                        Visibility="Collapsed"
+                        Style="{StaticResource radiobtn_style_with_iconfont}"/>
+            <RadioButton Content="&#xe8bc;" 
+                    Visibility="Visible"
+                    ToolTip="木板信息配置界面"
+                         Command="{Binding ChangeViewCommand}"
+                         CommandParameter="{x:Type local:WoodsConfigView}"
+                    Style="{StaticResource radiobtn_style_with_iconfont}"/>
+            <RadioButton Style="{StaticResource radiobtn_style_with_iconfont}"
+                        Content="&#xe8ca;" 
+                        ToolTip="plc监控界面"
+                        Command="{Binding ChangeViewCommand}"
+                        CommandParameter="{x:Type local:PLCControlView}"
+                        x:Name="radiobtn_PLCMonitor"/>
+
+            <RadioButton Style="{StaticResource radiobtn_style_with_iconfont}"
+                        Content="&#xe8c7;" 
+                         Command="{Binding ChangeViewCommand}"
+                         CommandParameter="{x:Type local:SystemConfigView}"
+                        ToolTip="用户设置"
+                        x:Name="radiobtn_UserConfigView"/>
+        </StackPanel>
+
+        <!--顶部工具栏-->
+        <DockPanel DockPanel.Dock="Top">
+            <StackPanel DockPanel.Dock="Left">
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Right" Orientation="Horizontal" HorizontalAlignment="Right">
+                <Button Grid.Column="1" Style="{StaticResource  button_style_win}" Content="&#xe686;"
+                        Command="{Binding MiniMainViewCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                        AncestorType=local:MainView}}"/>
+                <Button Grid.Column="2" Style="{StaticResource  button_style_win}" Content="&#xe685;"
+                        Command="{Binding CloseMainViewCommand}"
+                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, 
+                        AncestorType=local:MainView}}"/>
+                
+            </StackPanel>
+        </DockPanel>
+
+
+        <!--状态栏-->
+        <DockPanel DockPanel.Dock="Bottom">
+            <StackPanel Orientation="Horizontal" DockPanel.Dock="Left">
+                <Label Content="保存磁盘名称："/>
+                <Label Content="{Binding SaveDiskName}" Foreground="Green"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="0 0 10 0" HorizontalAlignment="Right" DockPanel.Dock="Right">
+                <TextBlock Text="系统时间：" Margin="0 0 5 0" FontSize="16" VerticalAlignment="Center"/>
+                <TextBlock VerticalAlignment="Center" FontSize="16"
+                        Text="{Binding TimeString,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"
+                        Foreground="Green"/>
+            </StackPanel>
+        </DockPanel>
+        <!--界面-->
+        <ContentControl DockPanel.Dock="Right">
+            <ContentPresenter Content="{Binding Content,Mode=OneWay,UpdateSourceTrigger=PropertyChanged}"/>
+        </ContentControl>
+    </DockPanel>
+</Window>

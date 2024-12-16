@@ -1,0 +1,15 @@
+﻿<UserControl x:Class="控件库.IntUpDownControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:控件库"
+             mc:Ignorable="d" 
+             SizeChanged="UserControl_SizeChanged"
+             >
+    <DockPanel>
+        <TextBox x:Name="txtbox_int" MinWidth="80" DockPanel.Dock="Left"/>
+        <Button Content="▲" DockPanel.Dock="Top" Click="btn_UP_Click"/>
+        <Button Content="▼" DockPanel.Dock="Bottom" Click="btn_Down_Click"/>
+    </DockPanel>
+</UserControl>
